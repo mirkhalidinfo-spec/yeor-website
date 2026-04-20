@@ -65,7 +65,7 @@ nav{
   background:radial-gradient(ellipse,rgba(122,158,135,0.08) 0%,transparent 70%);
   pointer-events:none;
 }
-.eyebrow{font-size:11px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:var(--moss);margin-bottom:20px;}
+.eyebrow{font-size:15px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--moss);margin-bottom:20px;}
 .hero h1{
   font-family:'Cormorant Garamond',serif;font-weight:400;
   font-size:clamp(44px,7vw,86px);line-height:1.02;
@@ -433,13 +433,29 @@ const STORE_KEY = 'yeor_portfolio_v1';
 let activeFilter = 'all';
 
 // ── storage ──
+const FB = 'FIREBASE_URL_HERE'; // ← same Firebase URL as yeor.html
+
 async function load(){
-  try{ if(window.storage){ const r=await window.storage.get(STORE_KEY,true); return r?JSON.parse(r.value):[]; } }catch(e){}
-  try{ return JSON.parse(localStorage.getItem(STORE_KEY)||'[]'); }catch(e){ return[]; }
+  try{
+    const res = await fetch(FB+'/portfolio.json');
+    const data = await res.json();
+    if(!data) return [];
+    return Object.values(data);
+  }catch(e){
+    try{return JSON.parse(localStorage.getItem(STORE_KEY)||'[]');}catch(e2){return[];}
+  }
 }
 async function save(arr){
-  try{ if(window.storage){ await window.storage.set(STORE_KEY,JSON.stringify(arr),true); return; } }catch(e){}
-  try{ localStorage.setItem(STORE_KEY,JSON.stringify(arr)); }catch(e){}
+  // Save full array by PUT (overwrites)
+  try{
+    await fetch(FB+'/portfolio.json',{
+      method:'PUT',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(arr)
+    });
+  }catch(e){
+    try{localStorage.setItem(STORE_KEY,JSON.stringify(arr));}catch(e2){}
+  }
 }
 
 // ── type labels ──

@@ -485,6 +485,8 @@ footer small{font-size:12px;color:var(--faint);}
     <li><a href="#reviews">Reviews</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <a href="portfolio.html" class="nav-link" style="font-size:13.5px;color:var(--mid);text-decoration:none;font-weight:400;transition:color .2s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--mid)'">Portfolio</a>
+  <a href="portfolio.html" style="color:var(--mid);text-decoration:none;font-size:13.5px;font-weight:400;transition:color .2s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--mid)'">Portfolio</a>
   <a href="#contact" class="nav-pill">Start a project</a>
 </nav>
 
@@ -723,13 +725,30 @@ footer small{font-size:12px;color:var(--faint);}
 const KEY='yeor_reviews_v1';
 let rat=0;
 
+// Firebase Realtime Database — shared reviews for all visitors
+const FB = 'FIREBASE_URL_HERE'; // ← replace with your Firebase URL
+
 async function load(){
-  try{if(window.storage){const r=await window.storage.get(KEY,true);return r?JSON.parse(r.value):[];}}catch(e){}
-  try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return[];}
+  try{
+    const res = await fetch(FB+'/reviews.json');
+    const data = await res.json();
+    if(!data) return [];
+    return Object.values(data);
+  }catch(e){
+    try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e2){return[];}
+  }
 }
 async function save(a){
-  try{if(window.storage){await window.storage.set(KEY,JSON.stringify(a),true);return;}}catch(e){}
-  try{localStorage.setItem(KEY,JSON.stringify(a));}catch(e){}
+  try{
+    const last = a[a.length-1];
+    await fetch(FB+'/reviews.json',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(last)
+    });
+  }catch(e){
+    try{localStorage.setItem(KEY,JSON.stringify(a));}catch(e2){}
+  }
 }
 function st(n){return'★'.repeat(n)+'☆'.repeat(5-n);}
 function sr(n){
