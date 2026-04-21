@@ -611,7 +611,25 @@ document.querySelectorAll('.overlay').forEach(o => {
 });
 
 // ── init ──
-render();
+async function seedDemoProjects(){
+  const existing = await load();
+  // Only seed if no projects yet
+  if(existing.length > 0) return;
+  const demos = [
+    {
+      id: 1000001,
+      title: "Dr. Aryan Sharma — General Physician",
+      type: "website",
+      desc: "Full professional website for a General Physician. Includes services, about, clinic timing, appointment booking via WhatsApp, and mobile responsive design.",
+      link: "https://yeor-doctor-demo.netlify.app",
+      client: "Demo — Doctor Website",
+      emoji: "🏥",
+      date: "Apr 2025"
+    }
+  ];
+  await save(demos);
+}
+seedDemoProjects().then(()=>render());
 </script>
 </body>
 </html>
