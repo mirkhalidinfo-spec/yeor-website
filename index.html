@@ -1,426 +1,47 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#070807" />
-  <meta name="description" content="YEOR is an AI strategy and transformation studio for mid-market and ambitious businesses." />
-  <title>YEOR — AI strategy for the next operating advantage</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --ink: #080908;
-      --ink-2: #111310;
-      --paper: #f2f0e8;
-      --paper-2: #e8e7de;
-      --muted: #9b9d91;
-      --muted-dark: #656960;
-      --line: rgba(242, 240, 232, .16);
-      --line-dark: rgba(8, 9, 8, .16);
-      --signal: #ff9f1c;
-      --signal-2: #ffc565;
-      --lime: #c4d84a;
-      --display: 'Space Grotesk', sans-serif;
-      --body: 'Manrope', sans-serif;
-      --mono: 'DM Mono', monospace;
-      --ease: cubic-bezier(.23, 1, .32, 1);
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { background: var(--ink); color: var(--paper); font-family: var(--body); line-height: 1.5; overflow-x: hidden; }
-    body::before { content: ''; position: fixed; inset: 0; z-index: 40; pointer-events: none; opacity: .08; mix-blend-mode: screen; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.24'/%3E%3C/svg%3E"); }
-    a { color: inherit; text-decoration: none; }
-    button, input, textarea { font: inherit; }
-    button { cursor: pointer; }
-    ::selection { background: var(--signal); color: var(--ink); }
-
-    .progress { position: fixed; top: 0; left: 0; z-index: 100; height: 3px; width: 0%; background: var(--signal); box-shadow: 0 0 16px var(--signal); }
-    .cursor-orb { width: 260px; height: 260px; border-radius: 50%; position: fixed; z-index: 0; pointer-events: none; background: radial-gradient(circle, rgba(255,159,28,.12), transparent 65%); transform: translate(-50%, -50%); opacity: 0; transition: opacity .4s ease; }
-    @media (hover: hover) { body:hover .cursor-orb { opacity: 1; } }
-
-    .container { width: min(1280px, calc(100% - 72px)); margin: 0 auto; position: relative; z-index: 1; }
-    .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--signal); }
-    .kicker { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-    .display { font-family: var(--display); letter-spacing: -.075em; font-weight: 500; }
-    .signal-text { color: var(--signal); }
-
-    .site-nav { position: fixed; z-index: 80; top: 0; left: 0; right: 0; height: 74px; border-bottom: 1px solid transparent; transition: background .3s ease, border-color .3s ease; }
-    .site-nav.scrolled { background: rgba(8,9,8,.85); border-color: var(--line); backdrop-filter: blur(18px); }
-    .nav-inner { height: 100%; display: flex; justify-content: space-between; align-items: center; width: min(1280px, calc(100% - 72px)); margin: 0 auto; }
-    .brand { font-family: var(--display); font-weight: 700; letter-spacing: -.08em; font-size: 22px; display: inline-flex; align-items: center; gap: 9px; }
-    .brand-dot { width: 8px; height: 8px; background: var(--signal); border-radius: 50%; box-shadow: 0 0 18px var(--signal); }
-    .nav-links { display: flex; gap: 30px; align-items: center; }
-    .nav-links a { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); transition: color .2s ease; }
-    .nav-links a:hover { color: var(--paper); }
-    .nav-cta { padding: 10px 15px; border: 1px solid rgba(255,159,28,.65); color: var(--signal); transition: background .2s ease, color .2s ease; }
-    .nav-cta:hover { background: var(--signal); color: var(--ink); }
-    .menu-toggle { display: none; color: var(--paper); border: 0; background: none; padding: 8px; }
-    .menu-toggle span { display: block; width: 23px; height: 1px; background: var(--paper); margin: 5px 0; transition: transform .2s ease; }
-
-    .hero { min-height: 100vh; position: relative; overflow: hidden; display: flex; align-items: flex-end; padding: 160px 0 88px; background: var(--ink); }
-    .hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(8,9,8,.92) 0%, rgba(8,9,8,.78) 34%, rgba(8,9,8,.08) 84%), linear-gradient(0deg, rgba(8,9,8,.88), transparent 50%); z-index: 1; }
-    .hero-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 62% 50%; opacity: .76; transform: scale(1.04); animation: heroBreath 12s ease-in-out infinite alternate; }
-    @keyframes heroBreath { from { transform: scale(1.04) translate3d(0,0,0); } to { transform: scale(1.1) translate3d(-1.2%, -1%, 0); } }
-    .hero-grid { position: absolute; inset: 0; z-index: 1; opacity: .14; background-size: 90px 90px; background-image: linear-gradient(to right, rgba(242,240,232,.22) 1px, transparent 1px), linear-gradient(to bottom, rgba(242,240,232,.22) 1px, transparent 1px); mask-image: linear-gradient(to right, black, transparent 72%); }
-    .hero-content { position: relative; z-index: 2; width: min(1280px, calc(100% - 72px)); margin: 0 auto; }
-    .hero-topline { display: flex; justify-content: space-between; align-items: center; margin-bottom: 42px; max-width: 1160px; }
-    .hero-topline .kicker { color: rgba(242,240,232,.58); }
-    .live-mark { display: inline-flex; align-items: center; gap: 9px; font-family: var(--mono); font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .12em; }
-    .live-mark i { display: block; width: 7px; height: 7px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 10px var(--lime); animation: pulse 1.8s ease-in-out infinite; }
-    @keyframes pulse { 0%,100%{opacity:.4} 50%{opacity:1} }
-    .hero h1 { font-size: clamp(58px, 8.3vw, 138px); line-height: .9; max-width: 920px; margin-bottom: 38px; }
-    .hero h1 .outline { color: transparent; -webkit-text-stroke: 1px rgba(242,240,232,.76); }
-    .hero h1 .italic { font-style: italic; font-weight: 400; }
-    .hero-footer { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; max-width: 1160px; }
-    .hero-copy { max-width: 405px; color: rgba(242,240,232,.68); font-size: 16px; line-height: 1.7; }
-    .hero-copy strong { color: var(--paper); font-weight: 600; }
-    .hero-actions { display: flex; align-items: center; gap: 24px; }
-    .button { border: 1px solid var(--signal); color: var(--ink); background: var(--signal); padding: 15px 20px; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 18px; transition: transform .2s ease, background .2s ease, color .2s ease; }
-    .button::after { content: '↗'; font-size: 15px; }
-    .button:hover { transform: translateY(-3px); background: var(--signal-2); }
-    .button-ghost { color: var(--paper); background: transparent; border-color: var(--line); }
-    .button-ghost:hover { background: var(--paper); color: var(--ink); border-color: var(--paper); }
-    .hero-index { font-family: var(--mono); font-size: 11px; color: rgba(242,240,232,.46); letter-spacing: .1em; }
-    .scroll-cue { position: absolute; bottom: 34px; right: 36px; z-index: 2; writing-mode: vertical-rl; transform: rotate(180deg); font-family: var(--mono); font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: rgba(242,240,232,.5); display: flex; align-items: center; gap: 12px; }
-    .scroll-cue::before { content: ''; width: 1px; height: 44px; background: var(--signal); }
-
-    .ticker { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); overflow: hidden; background: var(--ink-2); }
-    .ticker-track { display: flex; width: max-content; animation: marquee 28s linear infinite; }
-    .ticker span { display: flex; align-items: center; gap: 26px; padding: 18px 26px; font-family: var(--mono); text-transform: uppercase; font-size: 10px; letter-spacing: .14em; color: var(--muted); white-space: nowrap; }
-    .ticker span::after { content: '✳'; color: var(--signal); font-size: 14px; }
-    @keyframes marquee { to { transform: translateX(-50%); } }
-
-    .section { padding: 132px 0; position: relative; }
-    .section-dark { background: var(--ink); }
-    .section-light { color: var(--ink); background: var(--paper); }
-    .section-line { border-top: 1px solid var(--line); }
-    .section-light .section-line, .section-light .line { border-color: var(--line-dark); }
-    .section-head { display: grid; grid-template-columns: 1fr 2.1fr; gap: 48px; margin-bottom: 74px; }
-    .section-head h2 { font-size: clamp(42px, 5.8vw, 86px); line-height: .95; max-width: 720px; }
-    .section-head p { align-self: end; max-width: 390px; color: var(--muted); font-size: 15px; line-height: 1.75; }
-    .section-light .section-head p { color: var(--muted-dark); }
-
-    .signal-layout { display: grid; grid-template-columns: 1.1fr 1.9fr; gap: 72px; align-items: start; }
-    .signal-statement { border-top: 1px solid var(--line); padding-top: 19px; }
-    .signal-statement .number { font-family: var(--mono); color: var(--signal); font-size: 11px; }
-    .signal-statement h3 { font-size: 29px; line-height: 1.15; letter-spacing: -.05em; margin-top: 70px; max-width: 320px; }
-    .signal-statement p { color: var(--muted); font-size: 13px; line-height: 1.8; max-width: 310px; margin-top: 20px; }
-    .signal-diagram { border: 1px solid var(--line); min-height: 450px; position: relative; overflow: hidden; background: radial-gradient(circle at 68% 48%, rgba(255,159,28,.12), transparent 35%), var(--ink-2); }
-    .signal-diagram::before, .signal-diagram::after { content: ''; position: absolute; inset: 0; opacity: .18; background-size: 45px 45px; background-image: linear-gradient(to right, var(--paper) 1px, transparent 1px), linear-gradient(to bottom, var(--paper) 1px, transparent 1px); mask-image: radial-gradient(circle at 64% 48%, black, transparent 64%); }
-    .orbit { position: absolute; border: 1px solid rgba(255,159,28,.24); border-radius: 50%; transform: translate(-50%,-50%) rotate(-22deg); left: 67%; top: 51%; }
-    .orbit:nth-child(1){ width: 230px; height: 100px; animation: orbit 8s ease-in-out infinite alternate; }
-    .orbit:nth-child(2){ width: 350px; height: 155px; animation: orbit 11s ease-in-out infinite alternate-reverse; }
-    .orbit:nth-child(3){ width: 500px; height: 230px; animation: orbit 15s ease-in-out infinite alternate; opacity: .45; }
-    @keyframes orbit { to { transform: translate(-50%,-50%) rotate(26deg) scale(1.05); } }
-    .orbit-dot { width: 9px; height: 9px; background: var(--signal); border-radius: 50%; box-shadow: 0 0 22px 6px rgba(255,159,28,.3); position: absolute; left: 67%; top: 51%; transform: translate(-50%,-50%); animation: float 3s ease-in-out infinite; }
-    @keyframes float { 50% { transform: translate(-50%, -72%); } }
-    .diagram-label { position: absolute; font-family: var(--mono); font-size: 9px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); }
-    .diagram-label:nth-of-type(1){ left: 26px; top: 24px; }
-    .diagram-label:nth-of-type(2){ right: 28px; bottom: 26px; color: var(--signal); }
-    .diagram-label:nth-of-type(3){ right: 28px; top: 24px; }
-    .diagram-axis { position: absolute; background: var(--line); }
-    .diagram-axis.x { left: 24px; right: 24px; bottom: 55px; height: 1px; }
-    .diagram-axis.y { top: 55px; bottom: 24px; left: 24px; width: 1px; }
-    .diagram-scan { position: absolute; left: 26px; right: 26px; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,159,28,.6), transparent); top: 36%; animation: scan 4s ease-in-out infinite; }
-    @keyframes scan { 50% { top: 71%; } }
-
-    .cap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line-dark); border: 1px solid var(--line-dark); }
-    .cap { background: var(--paper); min-height: 310px; padding: 30px; display: flex; flex-direction: column; justify-content: space-between; transition: background .25s ease, transform .25s ease; }
-    .cap:hover { background: #faf8f1; transform: translateY(-5px); }
-    .cap-top { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 10px; color: var(--muted-dark); }
-    .cap-num { color: var(--signal); }
-    .cap h3 { font-family: var(--display); font-size: 27px; line-height: 1.05; letter-spacing: -.06em; max-width: 210px; }
-    .cap p { font-size: 13px; color: var(--muted-dark); max-width: 250px; line-height: 1.7; }
-    .cap-arrow { font-size: 24px; align-self: flex-end; color: var(--signal); }
-
-    .proof-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 46px; margin-top: 80px; }
-    .proof { border-top: 1px solid var(--line-dark); padding-top: 16px; }
-    .proof-value { font-family: var(--display); font-size: clamp(46px, 5vw, 70px); letter-spacing: -.09em; line-height: 1; }
-    .proof-label { margin-top: 16px; color: var(--muted-dark); font-size: 12px; line-height: 1.6; max-width: 180px; }
-
-    .engagements { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-    .engagement { min-height: 390px; position: relative; overflow: hidden; border: 1px solid var(--line); padding: 28px; display: flex; flex-direction: column; justify-content: space-between; transition: border-color .25s ease; }
-    .engagement:hover { border-color: var(--signal); }
-    .engagement:first-child { background: linear-gradient(135deg, rgba(255,159,28,.15), transparent 58%), #121510; }
-    .engagement:last-child { background: linear-gradient(135deg, rgba(196,216,74,.12), transparent 62%), #121510; }
-    .engagement::after { content: ''; position: absolute; width: 290px; height: 290px; border: 1px solid rgba(255,159,28,.32); border-radius: 50%; right: -80px; bottom: -100px; box-shadow: 0 0 0 30px rgba(255,159,28,.03), 0 0 0 60px rgba(255,159,28,.02); transition: transform .5s var(--ease); }
-    .engagement:last-child::after { border-color: rgba(196,216,74,.34); }
-    .engagement:hover::after { transform: scale(1.08) rotate(15deg); }
-    .engagement-meta { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; }
-    .engagement-tag { color: var(--signal); font-family: var(--mono); text-transform: uppercase; letter-spacing: .12em; font-size: 10px; }
-    .engagement:last-child .engagement-tag { color: var(--lime); }
-    .engagement-year { font-family: var(--mono); font-size: 10px; color: var(--muted); }
-    .engagement h3 { position: relative; z-index: 1; font-size: clamp(33px, 4vw, 56px); line-height: .98; max-width: 410px; letter-spacing: -.08em; }
-    .engagement-footer { position: relative; z-index: 1; display: flex; justify-content: space-between; gap: 20px; align-items: flex-end; }
-    .engagement-footer p { color: var(--muted); max-width: 250px; font-size: 13px; line-height: 1.65; }
-    .engagement-link { color: var(--paper); font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
-
-    .process { display: grid; grid-template-columns: 1fr 2.3fr; gap: 70px; }
-    .process-intro h2 { font-size: clamp(40px, 5vw, 74px); line-height: .92; margin-top: 20px; }
-    .process-intro p { margin-top: 24px; color: var(--muted); font-size: 14px; line-height: 1.75; max-width: 270px; }
-    .process-list { border-top: 1px solid var(--line); }
-    .process-item { display: grid; grid-template-columns: 70px 1fr 30px; gap: 24px; align-items: start; border-bottom: 1px solid var(--line); padding: 26px 0; transition: padding .25s ease, color .25s ease; }
-    .process-item:hover { padding-left: 14px; color: var(--signal); }
-    .process-item .step { font-family: var(--mono); font-size: 11px; color: var(--signal); padding-top: 6px; }
-    .process-item h3 { font-family: var(--display); font-size: 27px; letter-spacing: -.05em; font-weight: 500; }
-    .process-item p { color: var(--muted); font-size: 13px; line-height: 1.65; max-width: 490px; margin-top: 7px; }
-    .process-item .plus { font-size: 25px; font-weight: 300; color: var(--muted); transition: transform .25s ease; }
-    .process-item:hover .plus { transform: rotate(45deg); color: var(--signal); }
-
-    .cta { padding: 142px 0 160px; position: relative; overflow: hidden; }
-    .cta::before { content: ''; position: absolute; width: 630px; height: 630px; border: 1px solid rgba(255,159,28,.18); border-radius: 50%; right: -180px; top: 50%; transform: translateY(-50%); box-shadow: 0 0 0 34px rgba(255,159,28,.035), 0 0 0 68px rgba(255,159,28,.02), 0 0 0 102px rgba(255,159,28,.015); }
-    .cta::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 77% 50%, rgba(255,159,28,.11), transparent 29%); pointer-events: none; }
-    .cta-inner { display: grid; grid-template-columns: 1.4fr 1fr; gap: 80px; position: relative; z-index: 1; }
-    .cta h2 { font-size: clamp(55px, 8vw, 120px); line-height: .86; margin-top: 18px; max-width: 760px; }
-    .cta h2 em { color: var(--signal); font-style: normal; }
-    .cta-note { color: var(--muted); max-width: 365px; font-size: 14px; line-height: 1.7; margin-top: 34px; }
-    .form-wrap { border-top: 1px solid var(--line); padding-top: 15px; }
-    .form-wrap label { display: block; font-family: var(--mono); text-transform: uppercase; letter-spacing: .12em; font-size: 10px; color: var(--muted); margin: 19px 0 8px; }
-    .form-wrap input, .form-wrap textarea { width: 100%; color: var(--paper); background: transparent; border: 0; border-bottom: 1px solid var(--line); padding: 10px 0 13px; outline: 0; resize: none; transition: border-color .2s ease; }
-    .form-wrap textarea { min-height: 74px; }
-    .form-wrap input:focus, .form-wrap textarea:focus { border-color: var(--signal); }
-    .form-wrap .button { width: 100%; justify-content: space-between; margin-top: 28px; }
-    .form-success { display: none; border: 1px solid rgba(196,216,74,.45); color: var(--lime); padding: 18px; margin-top: 22px; font-family: var(--mono); font-size: 11px; line-height: 1.65; }
-    .form-success.show { display: block; }
-
-    footer { border-top: 1px solid var(--line); padding: 24px 0 34px; }
-    .footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
-    .footer-copy { font-family: var(--mono); color: var(--muted); font-size: 10px; letter-spacing: .09em; text-transform: uppercase; }
-    .footer-links { display: flex; gap: 20px; color: var(--muted); font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; }
-    .footer-links a:hover { color: var(--signal); }
-
-    [data-reveal] { opacity: 0; transform: translateY(26px); transition: opacity .75s var(--ease), transform .75s var(--ease); }
-    [data-reveal].revealed { opacity: 1; transform: translateY(0); }
-    .delay-1 { transition-delay: .08s; } .delay-2 { transition-delay: .16s; } .delay-3 { transition-delay: .24s; }
-
-    @media (max-width: 900px) {
-      .container, .nav-inner, .hero-content { width: min(100% - 42px, 680px); }
-      .nav-links { display: none; position: absolute; top: 74px; left: 0; right: 0; padding: 18px 21px 24px; background: rgba(8,9,8,.96); border-bottom: 1px solid var(--line); flex-direction: column; align-items: stretch; gap: 0; }
-      .nav-links.open { display: flex; }
-      .nav-links a { padding: 15px 0; border-bottom: 1px solid var(--line); }
-      .nav-links .nav-cta { text-align: center; margin-top: 16px; border: 1px solid var(--signal); }
-      .menu-toggle { display: block; }
-      .hero { min-height: 860px; padding-bottom: 72px; }
-      .hero h1 { font-size: clamp(58px, 14vw, 100px); }
-      .hero-topline { margin-bottom: 35px; }
-      .hero-footer { flex-direction: column; align-items: flex-start; }
-      .hero-actions { flex-wrap: wrap; }
-      .scroll-cue { display: none; }
-      .section { padding: 92px 0; }
-      .section-head, .signal-layout, .process, .cta-inner { grid-template-columns: 1fr; gap: 42px; }
-      .section-head { margin-bottom: 48px; }
-      .signal-statement h3 { margin-top: 35px; }
-      .signal-diagram { min-height: 380px; }
-      .cap-grid { grid-template-columns: 1fr; }
-      .cap { min-height: 245px; }
-      .proof-row { gap: 26px; margin-top: 60px; }
-      .engagements { grid-template-columns: 1fr; }
-      .engagement { min-height: 350px; }
-      .cta { padding: 100px 0 120px; }
-    }
-    @media (max-width: 520px) {
-      .container, .nav-inner, .hero-content { width: calc(100% - 32px); }
-      .hero { min-height: 780px; padding-top: 120px; }
-      .hero-image { object-position: 68% 50%; }
-      .hero-topline { align-items: flex-start; gap: 14px; flex-direction: column; }
-      .hero h1 { font-size: 58px; }
-      .hero-copy { font-size: 14px; }
-      .hero-actions { width: 100%; gap: 12px; }
-      .hero-actions .button { flex: 1; justify-content: space-between; }
-      .proof-row { grid-template-columns: 1fr; gap: 30px; }
-      .engagement { min-height: 330px; padding: 22px; }
-      .process-item { grid-template-columns: 42px 1fr 20px; gap: 13px; }
-      .process-item h3 { font-size: 24px; }
-      .cta h2 { font-size: 60px; }
-      .cta-inner { gap: 42px; }
-      footer { padding-bottom: 24px; }
-      .footer-inner { align-items: flex-start; flex-direction: column; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="YEOR is an AI strategy and transformation studio for businesses ready to design what comes next." />
+<title>YEOR — Design what comes next.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f4eddd;--paper2:#e8dfcb;--ink:#172321;--sage:#707c66;--orange:#df4d16;--orange2:#ef6a25;--line:rgba(23,35,33,.2);--line-light:rgba(244,237,221,.24);--serif:'Libre Baskerville',Georgia,serif;--sans:'DM Sans',Arial,sans-serif;--mono:'DM Mono',monospace;--ease:cubic-bezier(.2,.85,.25,1)}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow-x:hidden}a{color:inherit;text-decoration:none}button,input,textarea{font:inherit}button{cursor:pointer}::selection{background:var(--orange);color:var(--paper)}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:20;opacity:.12;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E")}.wrap{width:min(1320px,calc(100% - 72px));margin:auto}.mono{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.16em}.orange{color:var(--orange)}.serif{font-family:var(--serif);font-weight:400}.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}.reveal.in{opacity:1;transform:translateY(0)}
+header{height:70px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);position:relative;z-index:30}.brand{font-weight:700;letter-spacing:-.1em;font-size:20px;display:flex;gap:8px;align-items:center}.brand i{width:8px;height:8px;background:var(--orange);border-radius:50%;display:block}.nav{display:flex;gap:27px;align-items:center}.nav a{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:#56625b}.nav a:hover{color:var(--orange)}.nav .nav-btn{color:var(--paper);background:var(--ink);padding:10px 15px}.nav-btn:hover{background:var(--orange)!important}.menu{display:none;border:0;background:transparent}.menu span{display:block;width:24px;height:1px;background:var(--ink);margin:5px}
+.hero{min-height:calc(100vh - 70px);display:grid;grid-template-columns:44% 56%;position:relative;overflow:hidden}.hero-copy{padding:10vh 0 8vh;display:flex;flex-direction:column;justify-content:space-between;position:relative;z-index:2}.hero-copy h1{font-size:clamp(52px,7.2vw,112px);letter-spacing:-.075em;line-height:.94;max-width:660px}.hero-copy h1 em{font-style:italic}.hero-lead{max-width:360px;font-size:15px;line-height:1.7;color:#5f6b62}.hero-lead strong{color:var(--ink)}.hero-meta{display:flex;gap:55px;border-top:1px solid var(--line);padding-top:16px;max-width:580px}.hero-meta div{max-width:150px}.hero-meta p{font-size:11px;line-height:1.5;margin-top:7px;color:#687267}.hero-art{position:relative;min-height:700px;background-image:url('assets/yeor-editorial-hero.png');background-size:cover;background-position:center;overflow:hidden}.hero-art:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--paper) 0%,transparent 13%),linear-gradient(0deg,rgba(23,35,33,.2),transparent 32%);mix-blend-mode:multiply}.hero-stamp{position:absolute;z-index:2;right:26px;top:24px;border:1px solid var(--ink);width:86px;height:86px;border-radius:50%;display:grid;place-items:center;text-align:center;font-family:var(--mono);font-size:9px;line-height:1.2;letter-spacing:.09em;transform:rotate(12deg)}.hero-caption{position:absolute;z-index:2;bottom:22px;right:26px;color:var(--paper);text-align:right}.hero-caption .mono{font-size:9px}.hero-caption p{font-family:var(--serif);font-size:12px;margin-top:5px}
+.rail{height:50px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;align-items:center;overflow:hidden;white-space:nowrap}.rail-track{display:flex;gap:42px;animation:marquee 24s linear infinite}.rail span{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#687267}.rail b{color:var(--orange);font-size:13px;font-weight:400}@keyframes marquee{to{transform:translateX(-50%)}}
+.section{padding:115px 0}.section.dark{background:var(--ink);color:var(--paper)}.section.orange{background:var(--orange);color:var(--paper)}.section-head{display:grid;grid-template-columns:1fr 2.1fr;gap:60px;margin-bottom:72px}.section-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(38px,5.1vw,78px);line-height:1.04;letter-spacing:-.06em;max-width:840px}.section-head h2 em{font-style:italic}.section-head p{font-size:14px;line-height:1.75;max-width:390px;color:#687267;align-self:end}.dark .section-head p,.orange .section-head p{color:rgba(244,237,221,.68)}
+.intro-grid{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line-light);border-bottom:1px solid var(--line-light)}.intro-grid>div{padding:34px 38px 38px}.intro-grid>div:first-child{border-right:1px solid var(--line-light)}.intro-grid h3{font-family:var(--serif);font-size:30px;font-weight:400;line-height:1.25}.intro-grid p{font-size:13px;line-height:1.8;color:rgba(244,237,221,.65);max-width:400px;margin-top:18px}.dark .intro-grid .mono{color:var(--orange)}
+.cap-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.cap{min-height:350px;padding:27px 25px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid var(--line);position:relative;transition:background .25s var(--ease),color .25s var(--ease)}.cap:last-child{border-right:0}.cap:hover{background:var(--ink);color:var(--paper)}.cap .mono{color:var(--orange)}.cap h3{font-family:var(--serif);font-size:28px;line-height:1.12;font-weight:400;max-width:240px}.cap p{font-size:12.5px;line-height:1.7;color:#687267;max-width:270px}.cap:hover p{color:rgba(244,237,221,.65)}.cap-arrow{font-family:var(--serif);font-size:33px;align-self:flex-end;color:var(--orange)}
+.feature{display:grid;grid-template-columns:1fr 1fr;min-height:680px}.feature-image{background-size:cover;background-position:center}.feature-copy{padding:52px 50px;background:var(--sage);color:var(--paper);display:flex;flex-direction:column;justify-content:space-between}.feature-copy h3{font-family:var(--serif);font-size:clamp(38px,5vw,72px);font-weight:400;line-height:1;letter-spacing:-.06em;max-width:520px}.feature-copy p{max-width:380px;color:rgba(244,237,221,.75);font-size:14px;line-height:1.75}.feature-copy a{border-top:1px solid var(--line-light);padding-top:14px;width:100%;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.15em}.feature-copy a span{float:right;color:var(--orange)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{border:1px solid var(--line);background:var(--paper);transition:transform .25s var(--ease),box-shadow .25s}.card:hover{transform:translateY(-7px);box-shadow:8px 8px 0 var(--orange)}.card-image{height:240px;background-size:cover;background-position:center;border-bottom:1px solid var(--line)}.card-body{padding:18px 19px 22px}.card-body .mono{color:var(--orange)}.card-body h3{font-family:var(--serif);font-size:24px;font-weight:400;line-height:1.15;margin:30px 0 14px}.card-body p{font-size:12px;line-height:1.7;color:#687267}
+.process{display:grid;grid-template-columns:1fr 2fr;gap:75px}.process h2{font-family:var(--serif);font-size:clamp(42px,5.7vw,88px);line-height:.98;font-weight:400;letter-spacing:-.07em}.process-intro p{margin-top:25px;max-width:280px;font-size:14px;line-height:1.75;color:rgba(244,237,221,.65)}.steps{border-top:1px solid var(--line-light)}.step{display:grid;grid-template-columns:60px 1fr 30px;gap:18px;border-bottom:1px solid var(--line-light);padding:27px 0}.step .mono{color:var(--orange);padding-top:5px}.step h3{font-family:var(--serif);font-size:28px;font-weight:400}.step p{font-size:13px;line-height:1.7;color:rgba(244,237,221,.63);max-width:480px;margin-top:8px}.step .plus{font-family:var(--serif);font-size:24px;color:var(--orange)}
+.contact{display:grid;grid-template-columns:1.25fr 1fr;gap:80px}.contact h2{font-family:var(--serif);font-weight:400;font-size:clamp(51px,7.4vw,112px);line-height:.94;letter-spacing:-.08em}.contact h2 em{font-style:italic;color:var(--orange)}.contact-note{margin-top:31px;color:#687267;font-size:14px;line-height:1.75;max-width:360px}.form{border-top:1px solid var(--line);padding-top:8px}.form label{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.15em;text-transform:uppercase;margin:19px 0 5px;color:#687267}.form input,.form textarea{width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:10px 0 13px;outline:0;color:var(--ink)}.form textarea{min-height:78px;resize:vertical}.form input:focus,.form textarea:focus{border-color:var(--orange)}.submit{margin-top:27px;border:0;background:var(--ink);color:var(--paper);padding:15px 18px;width:100%;text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase}.submit:after{content:'↗';float:right;font-size:15px}.submit:hover{background:var(--orange)}.success{display:none;margin-top:25px;border:1px solid var(--orange);padding:16px;font-family:var(--mono);font-size:10px;line-height:1.6;color:var(--orange)}.success.show{display:block}
+footer{background:var(--ink);color:var(--paper);padding:26px 0}.footer{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}.footer small{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:rgba(244,237,221,.58)}.footer a:hover{color:var(--orange)}
+@media(max-width:880px){.wrap{width:min(100% - 42px,680px)}header{height:64px}.nav{display:none;position:absolute;top:64px;left:0;right:0;background:var(--paper);padding:15px 21px 22px;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;gap:0}.nav.open{display:flex}.nav a{padding:13px 0;border-bottom:1px solid var(--line)}.nav .nav-btn{text-align:center;margin-top:12px}.menu{display:block}.hero{grid-template-columns:1fr;min-height:auto}.hero-copy{padding:70px 0 45px;gap:55px}.hero-art{min-height:530px}.hero-art:after{background:linear-gradient(0deg,var(--paper) 0%,transparent 21%)}.section{padding:82px 0}.section-head,.process,.contact{grid-template-columns:1fr;gap:40px}.section-head{margin-bottom:48px}.intro-grid{grid-template-columns:1fr}.intro-grid>div:first-child{border-right:0;border-bottom:1px solid var(--line-light)}.cap-grid,.cards{grid-template-columns:1fr}.cap{min-height:260px;border-right:0;border-bottom:1px solid var(--line)}.cap:last-child{border-bottom:0}.feature{grid-template-columns:1fr;min-height:auto}.feature-image{min-height:390px}.feature-copy{min-height:460px}.cards{gap:20px}.card-image{height:290px}.contact{gap:48px}}
+@media(max-width:520px){.wrap{width:calc(100% - 32px)}.hero-copy h1{font-size:55px}.hero-meta{gap:20px}.hero-meta p{font-size:10px}.hero-art{min-height:420px}.hero-stamp{right:14px;top:14px;width:64px;height:64px;font-size:7px}.hero-caption{right:14px;bottom:14px}.feature-copy{padding:32px 24px}.feature-copy h3{font-size:45px}.step{grid-template-columns:38px 1fr 20px;gap:10px}.step h3{font-size:23px}.contact h2{font-size:57px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style>
 </head>
 <body>
-  <div class="progress" aria-hidden="true"></div>
-  <div class="cursor-orb" aria-hidden="true"></div>
-
-  <header class="site-nav" data-nav>
-    <div class="nav-inner">
-      <a href="#top" class="brand" aria-label="YEOR home"><span class="brand-dot"></span>YEOR</a>
-      <nav class="nav-links" data-menu>
-        <a href="#thesis">Thesis</a>
-        <a href="#capabilities">Capabilities</a>
-        <a href="#engagements">Engagements</a>
-        <a href="#process">Process</a>
-        <a href="#contact" class="nav-cta">Start a conversation</a>
-      </nav>
-      <button class="menu-toggle" data-menu-toggle aria-label="Toggle navigation"><span></span><span></span></button>
-    </div>
-  </header>
-
-  <main id="top">
-    <section class="hero">
-      <img class="hero-image" src="assets/yeor-signal-hero.png" alt="Abstract amber intelligence signal in a dark field" />
-      <div class="hero-grid" aria-hidden="true"></div>
-      <div class="hero-content">
-        <div class="hero-topline" data-reveal>
-          <div class="eyebrow">AI strategy / systems / advantage</div>
-          <div class="live-mark"><i></i> Independent studio · 2026</div>
-        </div>
-        <h1 class="display" data-reveal><span class="outline">Your next</span><br><span class="italic">operating</span><br><span class="signal-text">advantage.</span></h1>
-        <div class="hero-footer" data-reveal>
-          <p class="hero-copy">YEOR works with <strong>mid-market and ambitious businesses</strong> to turn AI from a scattered experiment into a compounding business system.</p>
-          <div class="hero-actions">
-            <a href="#contact" class="button">Find your signal</a>
-            <a href="#thesis" class="button button-ghost">See the approach</a>
-          </div>
-          <span class="hero-index">01 — 05</span>
-        </div>
-      </div>
-      <div class="scroll-cue">Scroll to align</div>
-    </section>
-
-    <div class="ticker" aria-label="YEOR principles">
-      <div class="ticker-track"><span>less theatre / more leverage</span><span>clarity before capability</span><span>systems that compound</span><span>less theatre / more leverage</span><span>clarity before capability</span><span>systems that compound</span></div>
-    </div>
-
-    <section class="section section-dark" id="thesis">
-      <div class="container">
-        <div class="section-head" data-reveal>
-          <div><div class="eyebrow">02 / Thesis</div></div>
-          <h2 class="display">AI is not a feature.<br><span class="signal-text">It is a new shape</span><br>for the business.</h2>
-        </div>
-        <div class="signal-layout">
-          <div class="signal-statement" data-reveal>
-            <div class="number">THE SIGNAL / 001</div>
-            <h3 class="display">The winners will not have the most tools. They will have the clearest system.</h3>
-            <p>We find the decisions, workflows and customer moments where intelligence can create disproportionate advantage — then make that advantage operational.</p>
-          </div>
-          <div class="signal-diagram" data-reveal>
-            <div class="orbit"></div><div class="orbit"></div><div class="orbit"></div><div class="orbit-dot"></div>
-            <div class="diagram-label">noise / inputs</div><div class="diagram-label">signal / advantage</div><div class="diagram-label">operating layer</div>
-            <div class="diagram-axis x"></div><div class="diagram-axis y"></div><div class="diagram-scan"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-light" id="capabilities">
-      <div class="container">
-        <div class="section-head" data-reveal>
-          <div><div class="eyebrow">03 / Capabilities</div></div>
-          <h2 class="display">From a blank page to a <span class="signal-text">better way</span> of operating.</h2>
-        </div>
-        <div class="cap-grid">
-          <article class="cap" data-reveal><div class="cap-top"><span class="cap-num">01</span><span>Diagnose</span></div><div><h3 class="display">AI opportunity architecture</h3><p>Decide where intelligence earns its place, what to stop doing, and which bets deserve a real business case.</p></div><div class="cap-arrow">↘</div></article>
-          <article class="cap" data-reveal><div class="cap-top"><span class="cap-num">02</span><span>Design</span></div><div><h3 class="display">Human + machine systems</h3><p>Design the workflows, roles and rituals that make new capability usable — and actually used.</p></div><div class="cap-arrow">↘</div></article>
-          <article class="cap" data-reveal><div class="cap-top"><span class="cap-num">03</span><span>Deploy</span></div><div><h3 class="display">Compounding advantage</h3><p>Move from pilot to operating rhythm with clear owners, measurable lift and a path to scale.</p></div><div class="cap-arrow">↘</div></article>
-        </div>
-        <div class="proof-row">
-          <div class="proof" data-reveal><div class="proof-value display" data-count="3">0</div><div class="proof-label">strategic lenses applied to every engagement</div></div>
-          <div class="proof" data-reveal><div class="proof-value display" data-count="90">0</div><div class="proof-label">day path from signal to first operating proof</div></div>
-          <div class="proof" data-reveal><div class="proof-value display" data-count="1">0</div><div class="proof-label">clear point of view your team can act on</div></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-dark" id="engagements">
-      <div class="container">
-        <div class="section-head" data-reveal>
-          <div><div class="eyebrow">04 / Selected engagements</div></div>
-          <p>Quietly ambitious teams come to us when the old playbook is still working — but it is starting to feel too expensive to keep.</p>
-        </div>
-        <div class="engagements">
-          <article class="engagement" data-reveal><div class="engagement-meta"><span class="engagement-tag">Growth system</span><span class="engagement-year">01 / 02</span></div><h3 class="display">Making the complex feel obvious.</h3><div class="engagement-footer"><p>Reframed a multi-product growth engine around the moments that matter most to customers and teams.</p><span class="engagement-link">Read the signal ↗</span></div></article>
-          <article class="engagement" data-reveal><div class="engagement-meta"><span class="engagement-tag">Operating model</span><span class="engagement-year">02 / 02</span></div><h3 class="display">A smarter rhythm for a growing team.</h3><div class="engagement-footer"><p>Turned AI anxiety into a shared operating language, with owners, rituals and a 90-day path to proof.</p><span class="engagement-link">Read the signal ↗</span></div></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-dark section-line" id="process">
-      <div class="container">
-        <div class="process">
-          <div class="process-intro" data-reveal><div class="eyebrow">05 / Process</div><h2 class="display">No fog.<br><span class="signal-text">Just signal.</span></h2><p>High-level thinking, grounded in what your people can change this quarter.</p></div>
-          <div class="process-list">
-            <div class="process-item" data-reveal><span class="step">01</span><div><h3 class="display">Find the leverage</h3><p>We map the decisions, constraints and latent advantage already inside your business.</p></div><span class="plus">+</span></div>
-            <div class="process-item" data-reveal><span class="step">02</span><div><h3 class="display">Name the system</h3><p>We turn scattered ambition into a sharp thesis, a practical roadmap and a shared language.</p></div><span class="plus">+</span></div>
-            <div class="process-item" data-reveal><span class="step">03</span><div><h3 class="display">Make it real</h3><p>We partner with your team to ship the first proof — then build the rhythm that compounds it.</p></div><span class="plus">+</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="cta section-dark" id="contact">
-      <div class="container cta-inner">
-        <div data-reveal><div class="eyebrow">Start a conversation</div><h2 class="display">Bring us the <em>messy</em> bit.</h2><p class="cta-note">A two-line brief is enough. Tell us what is changing, what feels stuck, or where you suspect the next advantage is hiding.</p></div>
-        <div class="form-wrap" data-reveal>
-          <form id="signal-form">
-            <label for="name">Your name</label><input id="name" name="name" type="text" placeholder="First + last" required>
-            <label for="email">Work email</label><input id="email" name="email" type="email" placeholder="you@company.com" required>
-            <label for="brief">What are you working through?</label><textarea id="brief" name="brief" placeholder="A little context is perfect."></textarea>
-            <button class="button" type="submit">Send the signal</button>
-          </form>
-          <div class="form-success" id="form-success">Signal received. We’ll get back to you within two working days.</div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container footer-inner"><div class="footer-copy">© 2026 YEOR / AI strategy studio</div><div class="footer-links"><a href="mailto:hello@yeor.studio">hello@yeor.studio</a><a href="#top">Back to top ↑</a></div></div>
-  </footer>
-
-  <script>
-    const nav = document.querySelector('[data-nav]');
-    const progress = document.querySelector('.progress');
-    const menu = document.querySelector('[data-menu]');
-    const toggle = document.querySelector('[data-menu-toggle]');
-    const orb = document.querySelector('.cursor-orb');
-
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 40);
-      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-      progress.style.width = `${scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0}%`;
-    }, { passive: true });
-
-    toggle.addEventListener('click', () => menu.classList.toggle('open'));
-    menu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => menu.classList.remove('open')));
-
-    window.addEventListener('pointermove', e => { orb.style.left = `${e.clientX}px`; orb.style.top = `${e.clientY}px`; }, { passive: true });
-
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('revealed'); revealObserver.unobserve(entry.target); } });
-    }, { threshold: .12 });
-    document.querySelectorAll('[data-reveal]').forEach(el => revealObserver.observe(el));
-
-    const countObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const node = entry.target;
-        const target = Number(node.dataset.count);
-        const duration = target > 20 ? 1200 : 700;
-        const started = performance.now();
-        const tick = now => {
-          const progress = Math.min((now - started) / duration, 1);
-          node.textContent = Math.floor(progress * target) + (target === 90 ? 'd' : target === 3 ? '×' : '');
-          if (progress < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-        countObserver.unobserve(node);
-      });
-    }, { threshold: .8 });
-    document.querySelectorAll('[data-count]').forEach(el => countObserver.observe(el));
-
-    document.getElementById('signal-form').addEventListener('submit', e => {
-      e.preventDefault();
-      e.currentTarget.style.display = 'none';
-      document.getElementById('form-success').classList.add('show');
-    });
-  </script>
+<header class="wrap"><a class="brand" href="#top"><i></i>YEOR</a><nav class="nav" data-nav><a href="#point">Point of view</a><a href="#capabilities">Capabilities</a><a href="#work">Work</a><a href="#process">Process</a><a class="nav-btn" href="#contact">Start a conversation</a></nav><button class="menu" data-menu aria-label="Open menu"><span></span><span></span></button></header>
+<main id="top">
+<section class="hero wrap"><div class="hero-copy"><div><div class="mono orange reveal">AI strategy / transformation / design</div><h1 class="serif reveal">Design the <em>next</em> way your business works.</h1></div><p class="hero-lead reveal">YEOR helps <strong>mid-market and ambitious businesses</strong> make AI useful, distinctive, and part of how the business actually moves.</p><div class="hero-meta reveal"><div><div class="mono orange">01 / Signal</div><p>Find the advantage hiding in plain sight.</p></div><div><div class="mono orange">02 / System</div><p>Build the operating rhythm to compound it.</p></div></div></div><div class="hero-art reveal"><div class="hero-stamp">YEOR<br>STUDIO<br>NO. 01</div><div class="hero-caption"><div class="mono">A new operating landscape</div><p>What if the future is something we design together?</p></div></div></section>
+<div class="rail"><div class="rail-track"><span>less theatre <b>✳</b></span><span>more leverage <b>✳</b></span><span>clarity before capability <b>✳</b></span><span>systems that compound <b>✳</b></span><span>less theatre <b>✳</b></span><span>more leverage <b>✳</b></span><span>clarity before capability <b>✳</b></span><span>systems that compound <b>✳</b></span></div></div>
+<section class="section dark" id="point"><div class="wrap"><div class="section-head reveal"><div class="mono orange">01 / Point of view</div><h2>AI is not another feature to bolt on. <em>It changes the shape of the business.</em></h2></div><div class="intro-grid reveal"><div><div class="mono orange">The shift</div><h3>From scattered experiments to a business system.</h3><p>We turn AI ambition into a focused thesis your leadership team can understand, own, and act on.</p></div><div><div class="mono orange">The standard</div><h3>Less theatre. More useful change.</h3><p>Every engagement ends with a sharper decision, a visible proof point, and a path your people can carry forward.</p></div></div></div></section>
+<section class="section" id="capabilities"><div class="wrap"><div class="section-head reveal"><div class="mono orange">02 / Capabilities</div><h2>We make the complex feel <em>obvious.</em></h2></div><div class="cap-grid"><article class="cap reveal"><div class="mono orange">01 / Diagnose</div><div><h3>AI opportunity architecture</h3><p>See where intelligence can create disproportionate advantage — and where it is just noise.</p></div><div class="cap-arrow">↘</div></article><article class="cap reveal"><div class="mono orange">02 / Design</div><div><h3>Human + machine systems</h3><p>Design the workflows, roles, and rituals that make new capability usable and used.</p></div><div class="cap-arrow">↘</div></article><article class="cap reveal"><div class="mono orange">03 / Deploy</div><div><h3>Compounding advantage</h3><p>Move from pilot to operating rhythm with owners, proof, and a clear path to scale.</p></div><div class="cap-arrow">↘</div></article></div></div></section>
+<section class="section orange"><div class="wrap feature"><div class="feature-image" style="background-image:url('assets/yeor-card-signal.png')"></div><div class="feature-copy reveal"><div class="mono">The signal / 001</div><h3>Start with the question behind the question.</h3><p>The most valuable AI work is rarely about picking a tool. It is about noticing the constraint, desire, or hidden pattern that the business has been too busy to name.</p><a href="#contact">Talk through the messy bit <span>↗</span></a></div></div></section>
+<section class="section" id="work"><div class="wrap"><div class="section-head reveal"><div class="mono orange">03 / Selected work</div><h2>Small shifts. <em>Different futures.</em></h2></div><div class="cards"><article class="card reveal"><div class="card-image" style="background-image:url('assets/yeor-card-orbit.png')"></div><div class="card-body"><div class="mono orange">Operating model</div><h3>Making the invisible system visible.</h3><p>Reframed a growing team’s AI ambition into an operating model with clear owners, rituals, and a 90-day proof.</p></div></article><article class="card reveal"><div class="card-image" style="background-image:url('assets/yeor-card-mountain.png')"></div><div class="card-body"><div class="mono orange">Growth system</div><h3>Building a smarter route to growth.</h3><p>Found the customer moments where better intelligence could turn complexity into momentum.</p></div></article><article class="card reveal"><div class="card-image" style="background-image:url('assets/yeor-editorial-hero.png')"></div><div class="card-body"><div class="mono orange">Future mapping</div><h3>Seeing the business a few moves ahead.</h3><p>Created a grounded point of view on what the category could become — and what to do next.</p></div></article></div></div></section>
+<section class="section dark" id="process"><div class="wrap process"><div class="process-intro reveal"><div class="mono orange">04 / Process</div><h2>Make it <em>real.</em></h2><p>High-level thinking, grounded in what your people can change this quarter.</p></div><div class="steps"><div class="step reveal"><div class="mono">01</div><div><h3>Find the leverage</h3><p>Map the decisions, constraints, and latent advantage already inside your business.</p></div><div class="plus">+</div></div><div class="step reveal"><div class="mono">02</div><div><h3>Name the system</h3><p>Turn scattered ambition into a sharp thesis, practical roadmap, and shared language.</p></div><div class="plus">+</div></div><div class="step reveal"><div class="mono">03</div><div><h3>Ship the first proof</h3><p>Partner with your team to make the idea visible, useful, and ready to compound.</p></div><div class="plus">+</div></div></div></div></section>
+<section class="section" id="contact"><div class="wrap contact"><div class="reveal"><div class="mono orange">05 / Start a conversation</div><h2>Bring us the <em>messy</em> bit.</h2><p class="contact-note">A two-line brief is enough. Tell us what is changing, what feels stuck, or where you suspect the next advantage is hiding.</p></div><div class="form reveal"><form id="signal-form"><label for="name">Your name</label><input id="name" required placeholder="First + last"><label for="email">Work email</label><input id="email" required type="email" placeholder="you@company.com"><label for="brief">What are you working through?</label><textarea id="brief" placeholder="A little context is perfect."></textarea><button class="submit" type="submit">Send the signal</button></form><div class="success" id="success">Signal received. We will get back to you within two working days.</div></div></div></section>
+</main><footer><div class="wrap footer"><small>© 2026 YEOR / AI strategy studio</small><small><a href="mailto:hello@yeor.studio">hello@yeor.studio</a> · <a href="#top">Back to top ↑</a></small></div></footer>
+<script>
+const nav=document.querySelector('[data-nav]');document.querySelector('[data-menu]').addEventListener('click',()=>nav.classList.toggle('open'));nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.reveal').forEach(e=>obs.observe(e));document.querySelector('#signal-form').addEventListener('submit',e=>{e.preventDefault();e.currentTarget.style.display='none';document.querySelector('#success').classList.add('show')});
+</script>
 </body>
 </html>
